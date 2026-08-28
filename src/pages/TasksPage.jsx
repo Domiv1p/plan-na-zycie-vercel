@@ -26,7 +26,7 @@ export default function TasksPage() {
   const fetchTasks = async () => {
     try {
       const res = await api.get('/tasks');
-      setTasks(res.data || []);
+      setTasks(Array.isArray(res) ? res : []);
     } catch (error) {
       console.error('Failed to fetch tasks', error);
     }
@@ -266,3 +266,4 @@ export default function TasksPage() {
     </div>
   );
 }
+

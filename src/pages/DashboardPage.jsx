@@ -34,9 +34,9 @@ export default function DashboardPage() {
         api.get('/calendar')
       ]);
 
-      const tasks = tasksRes.data || [];
-      const notes = notesRes.data || [];
-      const events = eventsRes.data || [];
+      const tasks = Array.isArray(tasksRes) ? tasksRes : [];
+      const notes = Array.isArray(notesRes) ? notesRes : [];
+      const events = Array.isArray(eventsRes) ? eventsRes : [];
 
       // Calculate task stats
       const stats = tasks.reduce((acc, task) => {
@@ -272,3 +272,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+

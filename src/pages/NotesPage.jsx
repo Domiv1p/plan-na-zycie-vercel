@@ -25,7 +25,7 @@ export default function NotesPage() {
   const fetchNotes = async () => {
     try {
       const res = await api.get('/notes');
-      setNotes(res.data || []);
+      setNotes(Array.isArray(res) ? res : []);
     } catch (error) {
       console.error('Failed to fetch notes', error);
     }
@@ -205,3 +205,4 @@ export default function NotesPage() {
     </div>
   );
 }
+
