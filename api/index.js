@@ -439,6 +439,47 @@ app.post('/api/push/test', authMiddleware, async (req, res) => {
   }
 });
 
+// Cron job endpoint for sending reminders
+app.get('/api/cron/reminders', async (req, res) => {
+  try {
+    const events = await db.prepare('SELECT * FROM calendar_events WHERE reminder_sent = 0 AND time IS NOT NULL AND reminder != 'Brak'').all();
+    if (events.length === 0) return res.json({ success: true, message: 'Brak nowych powiadomieñ' });
+
+    const now = new Date();
+    const pl = new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(now);
+    const [datePart, timePart] = pl.split(', ');
+    const [dPart, mPart, yPart] = datePart.split('.');
+    const currentWarsawTime = new Date(yPart + '-' + mPart + '-' + dPart + 'T' + timePart + ':00').getTime();
+
+    let sentCount = 0;
+    for (const event of events) {
+      const eventTime = new Date(event.date + 'T' + event.time + ':00').getTime();
+      let offsetMs = 0;
+      if (event.reminder.includes('15 minut')) offsetMs = 15 * 60 * 1000;
+      else if (event.reminder.includes('1 godzina')) offsetMs = 60 * 60 * 1000;
+      else if (event.reminder.includes('1 dzieñ')) offsetMs = 24 * 60 * 60 * 1000;
+      
+      const targetTime = eventTime - offsetMs;
+      
+      // If current time is past or exactly at the target reminder time
+      if (currentWarsawTime >= targetTime) {
+        // Find users to notify (both users)
+        const users = await db.prepare('SELECT id FROM users').all();
+        for (const u of users) {
+          await sendPushToUser(u.id, 'Przypomnienie o wydarzeniu', event.title + ' (' + event.date + ' ' + event.time + ')', 'event');
+        }
+        await db.prepare('UPDATE calendar_events SET reminder_sent = 1 WHERE id = ?').run(event.id);
+        sentCount++;
+      }
+    }
+
+    res.json({ success: true, sent: sentCount });
+  } catch (err) {
+    console.error('Cron error:', err);
+    res.status(500).json({ error: 'B³¹d crona' });
+  }
+});
+
 // Notifications
 app.get('/api/notifications', authMiddleware, async (req, res) => {
   try {
@@ -482,4 +523,6 @@ app.get('*', async (req, res) => {
 });
 
 export default app;
+
+
 
