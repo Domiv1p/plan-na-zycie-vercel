@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useAuth } from '../contexts/AuthContext';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User } from 'lucide-react';
 
 export default function TasksPage() {
@@ -277,3 +275,4 @@ export default function TasksPage() {
     </div>
   );
 }
+

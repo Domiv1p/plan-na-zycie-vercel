@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { format } from 'date-fns';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { pl } from 'date-fns/locale';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Plus, X, Trash2, Edit } from 'lucide-react';
 
 export default function NotesPage() {
@@ -217,3 +214,4 @@ export default function NotesPage() {
     </div>
   );
 }
+

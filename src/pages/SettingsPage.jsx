@@ -1,15 +1,11 @@
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import React, { useState } from 'react';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useAuth } from '../contexts/AuthContext';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useTheme } from '../contexts/ThemeContext';
 import useApi from '../hooks/useApi';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Bell, ShieldAlert, X, Heart, LogOut } from 'lucide-react';
 import ThemeSwitcher from '../components/ThemeSwitcher';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { subscribeToPush, unsubscribeFromPush } from '../utils/pushManager';
 
 export default function SettingsPage() {
@@ -194,3 +190,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

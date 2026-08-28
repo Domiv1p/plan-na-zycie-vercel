@@ -1,12 +1,9 @@
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import React, { useState, useEffect } from 'react';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isToday, isSameMonth, isSameDay, addMonths, subMonths, startOfWeek, endOfWeek } from 'date-fns';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { pl } from 'date-fns/locale';
 import useApi from '../hooks/useApi';
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { ChevronLeft, ChevronRight, Plus, X, Clock, Edit2, Trash2 } from 'lucide-react';
 
 export default function CalendarPage() {
@@ -281,3 +278,4 @@ export default function CalendarPage() {
     </div>
   );
 }
+
