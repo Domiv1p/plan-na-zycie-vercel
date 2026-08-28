@@ -272,8 +272,8 @@ export default function CalendarPage() {
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
         onConfirm={() => handleDeleteEvent(itemToDelete)} 
-        title="Usuñ wydarzenie" 
-        message="Czy na pewno chcesz usun¹æ to wydarzenie z kalendarza?" 
+        title="UsuÅ„ wydarzenie" 
+        message="Czy na pewno chcesz usunÄ…Ä‡ to wydarzenie z kalendarza?" 
       />
     </div>
   );

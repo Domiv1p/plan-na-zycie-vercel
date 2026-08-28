@@ -269,8 +269,8 @@ export default function TasksPage() {
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
         onConfirm={() => deleteTask(itemToDelete)} 
-        title="Usuñ zadanie" 
-        message="Czy na pewno chcesz trwale usun¹æ to zadanie? Tej operacji nie mo¿na cofn¹æ." 
+        title="UsuÅ„ zadanie" 
+        message="Czy na pewno chcesz trwale usunÄ…Ä‡ to zadanie? Tej operacji nie moÅ¼na cofnÄ…Ä‡." 
       />
     </div>
   );

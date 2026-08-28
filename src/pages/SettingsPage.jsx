@@ -185,8 +185,8 @@ export default function SettingsPage() {
         isOpen={isDeletingAccount} 
         onClose={() => setIsDeletingAccount(false)} 
         onConfirm={handleDeleteAccount} 
-        title="Usuñ konto" 
-        message="Czy na pewno chcesz usun¹æ swoje konto? Wszystkie zadania, notatki i wydarzenia zostan¹ trwale usuniête." 
+        title="UsuÅ„ konto" 
+        message="Czy na pewno chcesz usunÄ…Ä‡ swoje konto? Wszystkie zadania, notatki i wydarzenia zostanÄ… trwale usuniÄ™te." 
       />
     </div>
   );

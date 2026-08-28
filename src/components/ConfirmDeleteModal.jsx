@@ -9,7 +9,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, title, message }) => {
           <p className="text-[var(--text-secondary)] text-sm mb-6">{message}</p>
           <div className="flex space-x-3">
             <button onClick={onClose} className="flex-1 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] py-3 rounded-xl font-medium transition-colors">Anuluj</button>
-            <button onClick={() => { onConfirm(); onClose(); }} className="flex-1 bg-[var(--danger)] text-white py-3 rounded-xl font-medium hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">Usuñ</button>
+            <button onClick={() => { onConfirm(); onClose(); }} className="flex-1 bg-[var(--danger)] text-white py-3 rounded-xl font-medium hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">UsuÅ„</button>
           </div>
         </div>
       </div>

@@ -208,8 +208,8 @@ export default function NotesPage() {
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
         onConfirm={() => handleDeleteNote(itemToDelete)} 
-        title="Usuñ notatkê" 
-        message="Czy na pewno chcesz usun¹æ tê notatkê?" 
+        title="UsuÅ„ notatkÄ™" 
+        message="Czy na pewno chcesz usunÄ…Ä‡ tÄ™ notatkÄ™?" 
       />
     </div>
   );
