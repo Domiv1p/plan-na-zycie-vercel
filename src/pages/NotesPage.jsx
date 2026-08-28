@@ -36,7 +36,7 @@ export default function NotesPage() {
     if (!formData.title) return;
     try {
       if (editingId) {
-        await api.patch(`/api/notes/${editingId}`, formData);
+        await api.patch(`/notes/${editingId}`, formData);
       } else {
         await api.post('/notes', formData);
       }
@@ -51,7 +51,7 @@ export default function NotesPage() {
   const handleDeleteNote = async (id, e) => {
     e.stopPropagation();
     try {
-      await api.del(`/api/notes/${id}`);
+      await api.del(`/notes/${id}`);
       fetchNotes();
     } catch (error) {
       console.error('Failed to delete note', error);
@@ -205,4 +205,5 @@ export default function NotesPage() {
     </div>
   );
 }
+
 

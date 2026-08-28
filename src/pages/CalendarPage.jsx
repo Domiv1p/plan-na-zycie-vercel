@@ -60,7 +60,7 @@ export default function CalendarPage() {
 
   const handleDeleteEvent = async (id) => {
     try {
-      await api.del(`/api/calendar/${id}`);
+      await api.del(`/calendar/${id}`);
       fetchEvents();
     } catch (error) {
       console.error('Failed to delete event', error);
@@ -269,4 +269,5 @@ export default function CalendarPage() {
     </div>
   );
 }
+
 

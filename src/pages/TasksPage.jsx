@@ -53,7 +53,7 @@ export default function TasksPage() {
     
     const newStatus = statuses[newIndex];
     try {
-      await api.patch(`/api/tasks/${id}`, { status: newStatus });
+      await api.patch(`/tasks/${id}`, { status: newStatus });
       fetchTasks();
     } catch (error) {
       console.error('Failed to update task', error);
@@ -62,7 +62,7 @@ export default function TasksPage() {
 
   const deleteTask = async (id) => {
     try {
-      await api.del(`/api/tasks/${id}`);
+      await api.del(`/tasks/${id}`);
       fetchTasks();
     } catch (error) {
       console.error('Failed to delete task', error);
@@ -266,4 +266,5 @@ export default function TasksPage() {
     </div>
   );
 }
+
 
