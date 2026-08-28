@@ -443,7 +443,7 @@ app.post('/api/push/test', authMiddleware, async (req, res) => {
 app.get('/api/cron/reminders', async (req, res) => {
   try {
     const events = await db.prepare('SELECT * FROM calendar_events WHERE reminder_sent = 0 AND time IS NOT NULL AND reminder != \'Brak\'').all();
-    if (events.length === 0) return res.json({ success: true, message: 'Brak nowych powiadomieñ' });
+    if (events.length === 0) return res.json({ success: true, message: 'Brak nowych powiadomieÅ„' });
 
     const now = new Date();
     const pl = new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(now);
@@ -457,7 +457,7 @@ app.get('/api/cron/reminders', async (req, res) => {
       let offsetMs = 0;
       if (event.reminder.includes('15 minut')) offsetMs = 15 * 60 * 1000;
       else if (event.reminder.includes('1 godzina')) offsetMs = 60 * 60 * 1000;
-      else if (event.reminder.includes('1 dzieñ')) offsetMs = 24 * 60 * 60 * 1000;
+      else if (event.reminder.includes('1 dzieÅ„')) offsetMs = 24 * 60 * 60 * 1000;
       
       const targetTime = eventTime - offsetMs;
       
@@ -476,7 +476,7 @@ app.get('/api/cron/reminders', async (req, res) => {
     res.json({ success: true, sent: sentCount });
   } catch (err) {
     console.error('Cron error:', err);
-    res.status(500).json({ error: 'B³¹d crona' });
+    res.status(500).json({ error: 'BÅ‚Ä…d crona' });
   }
 });
 
