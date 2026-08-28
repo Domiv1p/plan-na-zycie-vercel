@@ -442,7 +442,7 @@ app.post('/api/push/test', authMiddleware, async (req, res) => {
 // Cron job endpoint for sending reminders
 app.get('/api/cron/reminders', async (req, res) => {
   try {
-    const events = await db.prepare('SELECT * FROM calendar_events WHERE reminder_sent = 0 AND time IS NOT NULL AND reminder != 'Brak'').all();
+    const events = await db.prepare('SELECT * FROM calendar_events WHERE reminder_sent = 0 AND time IS NOT NULL AND reminder != \'Brak\'').all();
     if (events.length === 0) return res.json({ success: true, message: 'Brak nowych powiadomieñ' });
 
     const now = new Date();
@@ -523,6 +523,7 @@ app.get('*', async (req, res) => {
 });
 
 export default app;
+
 
 
 
