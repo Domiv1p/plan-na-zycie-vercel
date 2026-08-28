@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useAuth } from '../contexts/AuthContext';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User } from 'lucide-react';
 
 export default function TasksPage() {
@@ -10,6 +13,7 @@ export default function TasksPage() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('Wszyscy');
   const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -134,7 +138,7 @@ export default function TasksPage() {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-bold text-[var(--text-primary)] text-lg leading-tight">{task.title}</h3>
-                      <button onClick={() => deleteTask(task.id)} className="text-[var(--text-muted)] hover:text-[var(--danger)] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => setItemToDelete(task.id)} className="text-[var(--text-muted)] hover:text-[var(--danger)] opacity-0 group-hover:opacity-100 transition-opacity">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -263,8 +267,13 @@ export default function TasksPage() {
           </div>
         )}
       </AnimatePresence>
+          <ConfirmDeleteModal 
+        isOpen={!!itemToDelete} 
+        onClose={() => setItemToDelete(null)} 
+        onConfirm={() => deleteTask(itemToDelete)} 
+        title="Usuñ zadanie" 
+        message="Czy na pewno chcesz trwale usun¹æ to zadanie? Tej operacji nie mo¿na cofn¹æ." 
+      />
     </div>
   );
 }
-
-

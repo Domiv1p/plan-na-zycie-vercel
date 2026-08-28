@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { format } from 'date-fns';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { pl } from 'date-fns/locale';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Plus, X, Trash2, Edit } from 'lucide-react';
 
 export default function NotesPage() {
@@ -10,6 +14,7 @@ export default function NotesPage() {
   const [notes, setNotes] = useState([]);
   const [filter, setFilter] = useState('Wszystkie');
   const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [editingId, setEditingId] = useState(null);
   
   const [formData, setFormData] = useState({
@@ -202,8 +207,13 @@ export default function NotesPage() {
           </div>
         )}
       </AnimatePresence>
+          <ConfirmDeleteModal 
+        isOpen={!!itemToDelete} 
+        onClose={() => setItemToDelete(null)} 
+        onConfirm={() => handleDeleteNote(itemToDelete)} 
+        title="Usuñ notatkê" 
+        message="Czy na pewno chcesz usun¹æ tê notatkê?" 
+      />
     </div>
   );
 }
-
-

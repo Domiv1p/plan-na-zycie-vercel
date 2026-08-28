@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useAuth } from '../contexts/AuthContext';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { useTheme } from '../contexts/ThemeContext';
 import useApi from '../hooks/useApi';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { Bell, ShieldAlert, X, Heart, LogOut } from 'lucide-react';
 import ThemeSwitcher from '../components/ThemeSwitcher';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { subscribeToPush, unsubscribeFromPush } from '../utils/pushManager';
 
 export default function SettingsPage() {
@@ -169,7 +174,7 @@ export default function SettingsPage() {
                   Anuluj
                 </button>
                 <button 
-                  onClick={handleDeleteAccount}
+                  onClick={() => setIsDeletingAccount(true)}
                   className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold shadow-[0_0_15px_rgba(220,38,38,0.5)] transition-colors"
                 >
                   Usu≈Ñ bezpowrotnie
@@ -179,6 +184,13 @@ export default function SettingsPage() {
           </div>
         )}
       </AnimatePresence>
+          <ConfirmDeleteModal 
+        isOpen={isDeletingAccount} 
+        onClose={() => setIsDeletingAccount(false)} 
+        onConfirm={handleDeleteAccount} 
+        title="UsuÒ konto" 
+        message="Czy na pewno chcesz usunπÊ swoje konto? Wszystkie zadania, notatki i wydarzenia zostanπ trwale usuniÍte." 
+      />
     </div>
   );
 }

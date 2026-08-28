@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { motion, AnimatePresence } from 'framer-motion';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isToday, isSameMonth, isSameDay, addMonths, subMonths, startOfWeek, endOfWeek } from 'date-fns';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { pl } from 'date-fns/locale';
 import useApi from '../hooks/useApi';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import { ChevronLeft, ChevronRight, Plus, X, Clock, Edit2, Trash2 } from 'lucide-react';
 
 export default function CalendarPage() {
@@ -11,6 +15,7 @@ export default function CalendarPage() {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -178,7 +183,7 @@ export default function CalendarPage() {
                     )}
                   </div>
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => handleDeleteEvent(event.id)} className="text-[var(--danger)] p-2 hover:bg-[var(--glass-bg)] rounded-lg">
+                    <button onClick={() => setItemToDelete(event.id)} className="text-[var(--danger)] p-2 hover:bg-[var(--glass-bg)] rounded-lg">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -266,8 +271,13 @@ export default function CalendarPage() {
           </div>
         )}
       </AnimatePresence>
+          <ConfirmDeleteModal 
+        isOpen={!!itemToDelete} 
+        onClose={() => setItemToDelete(null)} 
+        onConfirm={() => handleDeleteEvent(itemToDelete)} 
+        title="Usuñ wydarzenie" 
+        message="Czy na pewno chcesz usun¹æ to wydarzenie z kalendarza?" 
+      />
     </div>
   );
 }
-
-
