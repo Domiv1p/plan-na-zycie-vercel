@@ -60,6 +60,8 @@ self.addEventListener('push', (event) => {
   }
   const options = {
     body: data.body,
+    icon: '/icons/icon-192.png',
+    badge: '/icons/badge.png',
     vibrate: [100, 50, 100],
     data: { url: '/', type: data.type, timestamp: data.timestamp || Date.now() },
     actions: [{ action: 'open', title: 'Otwórz' }, { action: 'dismiss', title: 'Zamknij' }],
@@ -90,3 +92,4 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
+
