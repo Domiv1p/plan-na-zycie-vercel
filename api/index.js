@@ -353,15 +353,15 @@ app.get('/api/calendar', authMiddleware, async (req, res) => {
 
 app.post('/api/calendar', authMiddleware, async (req, res) => {
   try {
-    const { title, description, date, time, reminder_minutes } = req.body;
+    const { title, description, date, time, reminder } = req.body;
     if (!title || !date) {
       return res.status(400).json({ error: 'Tytuł i data są wymagane.' });
     }
 
     const result = await db.prepare(`
-      INSERT INTO calendar_events (title, description, date, time, reminder_minutes, created_by)
+      INSERT INTO calendar_events (title, description, date, time, reminder, created_by)
       VALUES (?, ?, ?, ?, ?, ?)
-    `).run(title, description || null, date, time || null, reminder_minutes || 15, req.user.id);
+    `).run(title, description || null, date, time || null, reminder || '15 minut przed', req.user.id);
 
     const event = await db.prepare('SELECT * FROM calendar_events WHERE id = ?').get(result.lastInsertRowid);
     
@@ -378,7 +378,7 @@ app.patch('/api/calendar/:id', authMiddleware, async (req, res) => {
     const updates = req.body;
     const { id } = req.params;
     
-    const allowedFields = ['title', 'description', 'date', 'time', 'reminder_minutes'];
+    const allowedFields = ['title', 'description', 'date', 'time', 'reminder'];
     const setClauses = [];
     const values = [];
 
@@ -482,3 +482,4 @@ app.get('*', async (req, res) => {
 });
 
 export default app;
+
