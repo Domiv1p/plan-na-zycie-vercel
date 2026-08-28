@@ -15,6 +15,7 @@ export default function SettingsPage() {
   const [pushEnabled, setPushEnabled] = useState(false);
   
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [deletePin, setDeletePin] = useState('');
   const [deleteError, setDeleteError] = useState('');
 
@@ -190,4 +191,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
 
