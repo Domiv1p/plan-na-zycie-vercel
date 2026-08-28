@@ -107,7 +107,7 @@ export function getDB() {
         },
         all: async (...params) => {
           let i = 0;
-          const pgSql = sql.replace(/\?/g, () => `$${+i}`);
+          const pgSql = sql.replace(/\?/g, () => `$${++i}`);
           const res = await pool.query(pgSql, params);
           return res.rows;
         }
