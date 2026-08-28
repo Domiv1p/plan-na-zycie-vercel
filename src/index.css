@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #030712;
+  --bg-card: rgba(139, 92, 246, 0.08);
+  --bg-card-hover: rgba(139, 92, 246, 0.15);
+  --accent: #a78bfa;
+  --accent-bright: #c4b5fd;
+  --accent-glow: #7c3aed;
+  --accent-dim: #6d28d9;
+  --border-color: rgba(139, 92, 246, 0.2);
+  --border-bright: rgba(139, 92, 246, 0.4);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --neon-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  --glass-bg: rgba(139, 92, 246, 0.06);
+  --glass-border: rgba(139, 92, 246, 0.15);
+  --danger: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans overflow-x-hidden min-h-screen;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  ::selection {
+    @apply bg-[var(--accent)] text-white;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-dim); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent); 
+}

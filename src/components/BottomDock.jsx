@@ -1,0 +1,51 @@
+import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { BarChart3, CalendarDays, CheckSquare, PenLine, Settings } from 'lucide-react';
+
+const navItems = [
+  { id: 'dashboard', path: '/dashboard', label: 'Dashboard', icon: BarChart3, activeAnimation: { scale: [1, 1.2, 1], transition: { repeat: Infinity, duration: 2 } } },
+  { id: 'calendar', path: '/calendar', label: 'Kalendarz', icon: CalendarDays, activeAnimation: { rotateY: [0, 180, 360], transition: { repeat: Infinity, duration: 3, ease: "linear" } } },
+  { id: 'tasks', path: '/tasks', label: 'Zadania', icon: CheckSquare, activeAnimation: { y: [0, -5, 0], transition: { repeat: Infinity, duration: 1.5 } } },
+  { id: 'notes', path: '/notes', label: 'Notatki', icon: PenLine, activeAnimation: { rotate: [0, -10, 10, -10, 0], transition: { repeat: Infinity, duration: 2 } } },
+  { id: 'settings', path: '/settings', label: 'Ustawienia', icon: Settings, activeAnimation: { rotate: 360, transition: { repeat: Infinity, duration: 4, ease: "linear" } } },
+];
+
+export default function BottomDock() {
+  const location = useLocation();
+
+  return (
+    <div className="fixed bottom-0 left-0 w-full z-50 bg-[var(--glass-bg)] backdrop-blur-2xl border-t border-[var(--glass-border)] pb-safe sm:pb-2">
+      <nav className="flex justify-around items-center h-16 px-2">
+        {navItems.map((item) => {
+          const isActive = location.pathname.startsWith(item.path);
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.id}
+              to={item.path}
+              className={`flex flex-col items-center justify-center w-16 h-full relative ${
+                isActive ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+              }`}
+            >
+              <div className="relative flex items-center justify-center w-10 h-10">
+                {isActive && (
+                  <motion.div
+                    layoutId="dock-glow"
+                    className="absolute inset-0 rounded-full bg-[var(--accent)] opacity-20 blur-[8px]"
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  />
+                )}
+                <motion.div animate={isActive ? item.activeAnimation : {}}>
+                  <Icon size={24} />
+                </motion.div>
+              </div>
+              <span className="text-[10px] font-medium mt-1">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
+  );
+}
