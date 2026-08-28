@@ -1,1 +1,0 @@
-const fs = require('fs'); const initSqlJs = require('sql.js'); initSqlJs().then(SQL => { const db = new SQL.Database(fs.readFileSync('plan-na-zycie.db')); const res = db.exec('SELECT * FROM push_subscriptions'); console.log(JSON.stringify(res, null, 2)); });
