@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
-import { Plus, X, Trash2, Edit } from 'lucide-react';
+import { Plus, X, Trash2, Edit, PenLine } from 'lucide-react';
 
 export default function NotesPage() {
   const api = useApi();

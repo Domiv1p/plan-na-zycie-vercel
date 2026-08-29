@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
 import { useAuth } from '../contexts/AuthContext';
-import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User, CheckCircle2 } from 'lucide-react';
+import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User, CheckCircle2, CheckSquare } from 'lucide-react';
 import { playDing } from '../utils/sounds';
 
 export default function TasksPage() {
