@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import useApi from '../hooks/useApi';
@@ -18,7 +18,7 @@ export default function DashboardPage() {
     const [activeModal, setActiveModal] = useState(null);
   
   // Quick add forms data
-  const [taskData, setTaskData] = useState({ title: '', description: '', priority: 'Średni', assigned_to: '', due_date: format(new Date(), 'yyyy-MM-dd') });
+  const [taskData, setTaskData] = useState({ title: '', description: '', priority: 'Ĺšredni', assigned_to: '', due_date: format(new Date(), 'yyyy-MM-dd') });
   const [eventData, setEventData] = useState({ title: '', description: '', date: format(new Date(), 'yyyy-MM-dd'), time: '12:00', reminder: '15 minut przed' });
   const [noteData, setNoteData] = useState({ title: '', content: '', dedication: 'both', color: '#a855f7' });
 
@@ -29,6 +29,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchData();
+    const interval = setInterval(fetchData, 10000); // Auto-refresh every 10s
+    return () => clearInterval(interval);
   }, []);
 
   const fetchData = async () => {
@@ -67,9 +69,9 @@ export default function DashboardPage() {
   const getGreeting = () => {
     const hour = time.getHours();
     if (hour < 5) return 'Dobranoc';
-    if (hour < 12) return 'Dzień dobry';
-    if (hour < 18) return 'Dzień dobry';
-    return 'Dobry wieczór';
+    if (hour < 12) return 'DzieĹ„ dobry';
+    if (hour < 18) return 'DzieĹ„ dobry';
+    return 'Dobry wieczĂłr';
   };
 
   const getRelativeTime = (date) => {
@@ -98,7 +100,7 @@ export default function DashboardPage() {
       await api.post('/tasks', { ...taskData, status: 'todo' });
       playPop();
       setActiveModal(null);
-      setTaskData({ title: '', description: '', priority: 'Średni', assigned_to: '', due_date: format(new Date(), 'yyyy-MM-dd') });
+      setTaskData({ title: '', description: '', priority: 'Ĺšredni', assigned_to: '', due_date: format(new Date(), 'yyyy-MM-dd') });
       fetchData();
     } catch(e) {}
   };
@@ -161,10 +163,10 @@ export default function DashboardPage() {
         <motion.div variants={itemVariants} className="md:col-span-12 flex flex-col md:flex-row justify-between items-start md:items-end mb-4">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-2">
-              Cześć, {user?.name}! 👋
+              CzeĹ›Ä‡, {user?.name}! đź‘‹
             </h1>
             <p className="text-xl text-[var(--text-secondary)]">
-              {getGreeting()} • {format(time, 'EEEE, d MMMM yyyy', { locale: pl })}
+              {getGreeting()} â€˘ {format(time, 'EEEE, d MMMM yyyy', { locale: pl })}
             </p>
           </div>
           <div className="mt-4 md:mt-0 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-4 shadow-[var(--neon-shadow)] flex items-center gap-3">
@@ -199,7 +201,7 @@ export default function DashboardPage() {
 
         {/* Task Progress */}
         <motion.div variants={itemVariants} className="md:col-span-4 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6 flex flex-col items-center">
-          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6 w-full">Postęp zadań</h2>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6 w-full">PostÄ™p zadaĹ„</h2>
           <div className="relative w-48 h-48 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r={radius} stroke="var(--bg-card-hover)" strokeWidth="12" fill="none" />
@@ -235,7 +237,7 @@ export default function DashboardPage() {
 
         {/* Recent Activity */}
         <motion.div variants={itemVariants} className="md:col-span-8 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6">Ostatnia aktywność</h2>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6">Ostatnia aktywnoĹ›Ä‡</h2>
           <div className="space-y-4">
             {activities.length > 0 ? activities.map((activity, idx) => (
               <div key={`${activity.type}-${activity.id}-${idx}`} className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--glass-border)] hover:border-[var(--border-bright)] transition-colors">
@@ -246,14 +248,14 @@ export default function DashboardPage() {
                   <p className="font-bold text-[var(--text-primary)] truncate">{activity.title}</p>
                   <p className="text-sm text-[var(--text-muted)] flex items-center gap-2">
                     <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card-hover)] text-xs border border-[var(--glass-border)]">
-                      {activity.creator_name || activity.assigned_to_name || 'Ktoś'}
+                      {activity.creator_name || activity.assigned_to_name || 'KtoĹ›'}
                     </span>
-                    • {getRelativeTime(activity.date)}
+                    â€˘ {getRelativeTime(activity.date)}
                   </p>
                 </div>
               </div>
             )) : (
-              <div className="text-center py-8 text-[var(--text-muted)]">Brak recent aktywności. Dodaj coś!</div>
+              <div className="text-center py-8 text-[var(--text-muted)]">Brak recent aktywnoĹ›ci. Dodaj coĹ›!</div>
             )}
           </div>
         </motion.div>
@@ -279,8 +281,8 @@ export default function DashboardPage() {
               {activeModal === 'task' && (
                 <form onSubmit={submitTask} className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">Tytuł zadania</label>
-                    <input autoFocus type="text" value={taskData.title} onChange={e => setTaskData({...taskData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
+                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">TytuĹ‚ zadania</label>
+                    <input  type="text" value={taskData.title} onChange={e => setTaskData({...taskData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
                   </div>
                   <div>
                     <label className="text-[var(--text-secondary)] text-sm mb-1 block">Opis</label>
@@ -289,7 +291,7 @@ export default function DashboardPage() {
                   <div>
                     <label className="text-[var(--text-secondary)] text-sm mb-1 block">Priorytet</label>
                     <div className="flex gap-2">
-                      {['Niski', 'Średni', 'Wysoki'].map(p => (
+                      {['Niski', 'Ĺšredni', 'Wysoki'].map(p => (
                         <button key={p} type="button" onClick={() => setTaskData({...taskData, priority: p})} className={`flex-1 py-2 rounded-xl border transition-all ${taskData.priority === p ? getPriorityColor(p) + ' shadow-md' : 'border-[var(--glass-border)] bg-[var(--bg-card)] text-[var(--text-muted)]'}`}>{p}</button>
                       ))}
                     </div>
@@ -314,8 +316,8 @@ export default function DashboardPage() {
               {activeModal === 'event' && (
                 <form onSubmit={submitEvent} className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">Tytuł wydarzenia</label>
-                    <input autoFocus type="text" value={eventData.title} onChange={e => setEventData({...eventData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
+                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">TytuĹ‚ wydarzenia</label>
+                    <input  type="text" value={eventData.title} onChange={e => setEventData({...eventData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -337,7 +339,7 @@ export default function DashboardPage() {
                       <option value="Brak" className="bg-[var(--bg-primary)] text-[var(--text-primary)]">Brak</option>
                       <option value="5 minut przed" className="bg-[var(--bg-primary)] text-[var(--text-primary)]">5 minut przed</option>
                       <option value="15 minut przed" className="bg-[var(--bg-primary)] text-[var(--text-primary)]">15 minut przed</option>
-                      <option value="1 godzinę przed" className="bg-[var(--bg-primary)] text-[var(--text-primary)]">1 godzinę przed</option>
+                      <option value="1 godzinÄ™ przed" className="bg-[var(--bg-primary)] text-[var(--text-primary)]">1 godzinÄ™ przed</option>
                     </select>
                   </div>
                   <button type="submit" className="w-full mt-4 bg-[var(--accent)] hover:bg-[var(--accent-bright)] text-white font-bold py-4 rounded-xl shadow-[var(--neon-shadow)] transition-all hover:scale-[1.02]">Dodaj wydarzenie</button>
@@ -347,11 +349,11 @@ export default function DashboardPage() {
               {activeModal === 'note' && (
                 <form onSubmit={submitNote} className="flex flex-col gap-4">
                   <div>
-                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">Tytuł notatki</label>
-                    <input autoFocus type="text" value={noteData.title} onChange={e => setNoteData({...noteData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
+                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">TytuĹ‚ notatki</label>
+                    <input  type="text" value={noteData.title} onChange={e => setNoteData({...noteData, title: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]" required />
                   </div>
                   <div>
-                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">Treść</label>
+                    <label className="text-[var(--text-secondary)] text-sm mb-1 block">TreĹ›Ä‡</label>
                     <textarea value={noteData.content} onChange={e => setNoteData({...noteData, content: e.target.value})} className="w-full bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl py-3 px-4 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] min-h-[100px]" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -363,11 +365,11 @@ export default function DashboardPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[var(--text-secondary)] text-sm mb-1 block">Kolor okładki</label>
+                      <label className="text-[var(--text-secondary)] text-sm mb-1 block">Kolor okĹ‚adki</label>
                       <input type="color" value={noteData.color} onChange={e => setNoteData({...noteData, color: e.target.value})} className="w-full h-12 bg-[var(--bg-card)] border border-[var(--glass-border)] rounded-xl p-1 cursor-pointer" />
                     </div>
                   </div>
-                  <button type="submit" className="w-full mt-4 bg-[var(--accent)] hover:bg-[var(--accent-bright)] text-white font-bold py-4 rounded-xl shadow-[var(--neon-shadow)] transition-all hover:scale-[1.02]">Dodaj notatkę</button>
+                  <button type="submit" className="w-full mt-4 bg-[var(--accent)] hover:bg-[var(--accent-bright)] text-white font-bold py-4 rounded-xl shadow-[var(--neon-shadow)] transition-all hover:scale-[1.02]">Dodaj notatkÄ™</button>
                 </form>
               )}
             </motion.div>
@@ -376,3 +378,4 @@ export default function DashboardPage() {
       </div>
     );
   }
+

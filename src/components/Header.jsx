@@ -78,7 +78,7 @@ export default function Header() {
                   exit={{ opacity: 0, scale: 0.8, y: -10, filter: 'blur(10px)' }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{ transformOrigin: 'top right' }}
-                  className="absolute right-0 top-full mt-2 w-[90vw] max-w-sm sm:w-80 max-h-[80vh] overflow-hidden bg-[var(--bg-primary)] border border-[var(--border-bright)] rounded-[2rem] shadow-2xl z-50 flex flex-col"
+                  className="fixed top-20 right-4 w-[calc(100vw-32px)] sm:absolute sm:top-full sm:mt-2 sm:right-0 sm:w-80 max-h-[80vh] overflow-hidden bg-[var(--bg-primary)] border border-[var(--border-bright)] rounded-[2rem] shadow-2xl z-50 flex flex-col"
                 >
                   <div className="p-5 border-b border-[var(--glass-border)] flex justify-between items-center bg-[var(--bg-card)] backdrop-blur-md">
                     <h3 className="font-bold text-lg text-[var(--text-primary)]">Powiadomienia</h3>

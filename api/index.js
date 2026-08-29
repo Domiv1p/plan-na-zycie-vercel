@@ -171,7 +171,11 @@ app.delete('/api/auth/account', authMiddleware, async (req, res) => {
       await db.prepare('DELETE FROM tasks WHERE created_by = ? OR assigned_to = ?').run(req.user.id, req.user.id);
       await db.prepare('DELETE FROM notes WHERE created_by = ?').run(req.user.id);
       await db.prepare('DELETE FROM calendar_events WHERE created_by = ?').run(req.user.id);
-      await db.prepare('DELETE FROM push_subscriptions WHERE user_id = ?').run(req.user.id);
+      // Remove this exact subscription from any other user first to prevent cross-account notifications on the same device
+    await db.prepare('DELETE FROM push_subscriptions WHERE subscription_json = ?').run(JSON.stringify(subscription));
+    
+    // Remove old subscriptions for this user to keep it clean (optional, but good if they have many dead ones)
+    await db.prepare('DELETE FROM push_subscriptions WHERE user_id = ?').run(req.user.id);
       await db.prepare('DELETE FROM notifications WHERE user_id = ?').run(req.user.id);
       await db.prepare('DELETE FROM users WHERE id = ?').run(req.user.id);
     res.json({ success: true });

@@ -22,6 +22,8 @@ export default function NotesPage() {
 
   useEffect(() => {
     fetchNotes();
+    const interval = setInterval(fetchNotes, 10000); // Auto-refresh every 10s
+    return () => clearInterval(interval);
   }, []);
 
   const fetchNotes = async () => {

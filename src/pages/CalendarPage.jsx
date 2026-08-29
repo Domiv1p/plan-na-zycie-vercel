@@ -25,6 +25,8 @@ export default function CalendarPage() {
 
   useEffect(() => {
     fetchEvents();
+    const interval = setInterval(fetchEvents, 10000);
+    return () => clearInterval(interval);
   }, [currentMonth]);
 
   const fetchEvents = async () => {
