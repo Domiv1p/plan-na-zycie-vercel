@@ -57,6 +57,7 @@ export async function initDB() {
       date TEXT NOT NULL,
       time TEXT,
       reminder TEXT,
+        reminder_sent INTEGER DEFAULT 0,
       created_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
