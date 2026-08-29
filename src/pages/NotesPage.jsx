@@ -27,18 +27,19 @@ export default function NotesPage() {
   const fetchNotes = async () => {
     try {
       const res = await api.get('/notes');
-      setNotes(Array.isArray(res) ? res : []);
+      setNotes(res.data || []);
     } catch (error) {
       console.error('Failed to fetch notes', error);
     }
   };
 
   const handleSaveNote = async (e) => {
+    playPaper();
     e.preventDefault();
     if (!formData.title) return;
     try {
       if (editingId) {
-        await api.patch(`/notes/${editingId}`, formData);
+        await api.patch(`/api/notes/${editingId}`, formData);
       } else {
         await api.post('/notes', formData);
       }
@@ -53,7 +54,7 @@ export default function NotesPage() {
   const handleDeleteNote = async (id, e) => {
     e.stopPropagation();
     try {
-      await api.del(`/notes/${id}`);
+      await api.del(`/api/notes/${id}`);
       fetchNotes();
     } catch (error) {
       console.error('Failed to delete note', error);
@@ -108,7 +109,7 @@ export default function NotesPage() {
           {filteredNotes.map(note => (
             <motion.div
               layout
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, rotateY: 90 }} animate={{ opacity: 1, rotateY: 0 }} exit={{ opacity: 0, rotateY: -90 }} transition={{ type: 'spring', damping: 15 }} style={{ transformPerspective: 1000 }}
               key={note.id}
               onClick={() => openEditModal(note)}
               className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6 relative group cursor-pointer hover:border-[var(--accent)] hover:shadow-lg transition-all flex flex-col h-64"
@@ -159,7 +160,7 @@ export default function NotesPage() {
                 <X className="w-6 h-6" />
               </button>
               <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">
-                {editingId ? 'Edytuj notatkę' : 'Nowa notatka'}
+                {editingId ? 'Edytuj notatk' : 'Nowa notatka'}
               </h2>
               
               <form onSubmit={handleSaveNote} className="flex flex-col gap-4">
@@ -204,14 +205,19 @@ export default function NotesPage() {
           </div>
         )}
       </AnimatePresence>
-          <ConfirmDeleteModal 
+    
+      <ConfirmDeleteModal 
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
-        onConfirm={() => handleDeleteNote(itemToDelete)} 
+        onConfirm={() => {
+          if (itemToDelete) {
+            deleteNote(itemToDelete);
+            setItemToDelete(null);
+          }
+        }} 
         title="Usuń notatkę" 
         message="Czy na pewno chcesz usunąć tę notatkę?" 
       />
     </div>
   );
 }
-

@@ -5,6 +5,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, isToday, isSameMon
 import { pl } from 'date-fns/locale';
 import useApi from '../hooks/useApi';
 import { ChevronLeft, ChevronRight, Plus, X, Clock, Edit2, Trash2 } from 'lucide-react';
+import { playPop, playPlum } from '../utils/sounds';
 
 export default function CalendarPage() {
   const api = useApi();
@@ -39,6 +40,7 @@ export default function CalendarPage() {
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
   const handleDayClick = (day) => {
+    playPop();
     setSelectedDay(day);
     setFormData({ ...formData, date: format(day, 'yyyy-MM-dd') });
   };
@@ -49,6 +51,7 @@ export default function CalendarPage() {
   };
 
   const handleSaveEvent = async (e) => {
+    playPlum();
     e.preventDefault();
     if (!formData.title) return;
     try {
@@ -129,7 +132,14 @@ export default function CalendarPage() {
                   ${isTodayDate && !isSelected ? 'border-[var(--accent)] text-[var(--accent)] font-bold' : ''}
                 `}
               >
-                <span className="text-sm sm:text-base">{format(day, dateFormat)}</span>
+                                  <span className="text-sm sm:text-base z-10">{format(day, dateFormat)}</span>
+                  {isSelected && (
+                    <motion.div 
+                      layoutId="selectedDayRing"
+                      className="absolute inset-0 border-2 border-red-500 rounded-xl shadow-[0_0_15px_rgba(239,68,68,0.5)] z-0"
+                      transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                    />
+                  )}
                 {dayEvents.length > 0 && (
                   <div className="absolute bottom-2 flex gap-1">
                     {dayEvents.slice(0, 3).map((e, idx) => (
@@ -272,8 +282,8 @@ export default function CalendarPage() {
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
         onConfirm={() => handleDeleteEvent(itemToDelete)} 
-        title="Usuń wydarzenie" 
-        message="Czy na pewno chcesz usunąć to wydarzenie z kalendarza?" 
+        title="Usuńń wydarzenie" 
+        message="Czy na pewno chcesz usunąćąć to wydarzenie z kalendarza?" 
       />
     </div>
   );

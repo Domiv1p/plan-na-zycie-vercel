@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { THEMES, THEME_NAMES, THEME_EMOJIS } from '../utils/themes';
 import { useTheme } from '../contexts/ThemeContext';
+import { playPlum } from '../utils/sounds';
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
@@ -17,7 +18,7 @@ export default function ThemeSwitcher() {
             key={themeKey}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setTheme(themeKey)}
+            onClick={() => { playPlum(); setTheme(themeKey); }}
             className={`relative p-4 rounded-2xl flex flex-col items-center gap-3 bg-[var(--glass-bg)] backdrop-blur-md transition-all ${
               isActive 
                 ? 'border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent-glow)]' 

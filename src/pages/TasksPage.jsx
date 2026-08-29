@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useApi from '../hooks/useApi';
 import { useAuth } from '../contexts/AuthContext';
-import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User } from 'lucide-react';
+import { Plus, X, ArrowLeft, ArrowRight, Trash2, Calendar, User, CheckCircle2 } from 'lucide-react';
+import { playDing } from '../utils/sounds';
 
 export default function TasksPage() {
   const api = useApi();
@@ -16,7 +17,7 @@ export default function TasksPage() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    priority: 'Średni',
+    priority: 'ŚŚredni',
     assigned_to: '',
     due_date: ''
   });
@@ -40,7 +41,7 @@ export default function TasksPage() {
     try {
       await api.post('/tasks', { ...formData, status: 'todo' });
       setShowModal(false);
-      setFormData({ title: '', description: '', priority: 'Średni', assigned_to: '', due_date: '' });
+      setFormData({ title: '', description: '', priority: 'ŚŚredni', assigned_to: '', due_date: '' });
       fetchTasks();
     } catch (error) {
       console.error('Failed to save task', error);
@@ -52,8 +53,8 @@ export default function TasksPage() {
     const currentIndex = statuses.indexOf(currentStatus);
     let newIndex = currentIndex + direction;
     if (newIndex < 0 || newIndex > 2) return;
-    
     const newStatus = statuses[newIndex];
+    if (newStatus === 'done') playDing();
     try {
       await api.patch(`/tasks/${id}`, { status: newStatus });
       fetchTasks();
@@ -73,7 +74,7 @@ export default function TasksPage() {
 
   const getPriorityColor = (priority) => {
     if (priority === 'Niski') return 'text-[var(--success)] border-[var(--success)] bg-[var(--success)]/10';
-    if (priority === 'Średni') return 'text-[var(--warning)] border-[var(--warning)] bg-[var(--warning)]/10';
+    if (priority === 'ŚŚredni') return 'text-[var(--warning)] border-[var(--warning)] bg-[var(--warning)]/10';
     return 'text-[var(--danger)] border-[var(--danger)] bg-[var(--danger)]/10';
   };
 
@@ -89,7 +90,7 @@ export default function TasksPage() {
   });
 
   const columns = [
-    { id: 'todo', title: 'Do zrobienia' },
+    { id: 'todo', title: 'Do zrobićenia' },
     { id: 'in_progress', title: 'W toku' },
     { id: 'done', title: 'Zrobione' }
   ];
@@ -205,7 +206,7 @@ export default function TasksPage() {
               
               <form onSubmit={handleSaveTask} className="flex flex-col gap-4">
                 <div>
-                  <label className="text-[var(--text-secondary)] text-sm mb-1 block">Tytuł</label>
+                  <label className="text-[var(--text-secondary)] text-sm mb-1 block">Tytułł</label>
                   <input 
                     type="text" required
                     value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})}
@@ -224,7 +225,7 @@ export default function TasksPage() {
                 <div>
                   <label className="text-[var(--text-secondary)] text-sm mb-1 block">Priorytet</label>
                   <div className="flex gap-2">
-                    {['Niski', 'Średni', 'Wysoki'].map(p => (
+                    {['Niski', 'ŚŚredni', 'Wysoki'].map(p => (
                       <button
                         key={p} type="button"
                         onClick={() => setFormData({...formData, priority: p})}
@@ -269,8 +270,8 @@ export default function TasksPage() {
         isOpen={!!itemToDelete} 
         onClose={() => setItemToDelete(null)} 
         onConfirm={() => deleteTask(itemToDelete)} 
-        title="Usuń zadanie" 
-        message="Czy na pewno chcesz trwale usunąć to zadanie? Tej operacji nie można cofnąć." 
+        title="Usuńń zadanie" 
+        message="Czy na pewno chcesz trwale usunąćąć to zadanie? Tej operacji nie można cofnąćąć." 
       />
     </div>
   );

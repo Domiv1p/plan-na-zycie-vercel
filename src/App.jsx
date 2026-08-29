@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -13,7 +13,6 @@ import SettingsPage from './pages/SettingsPage';
 
 import Header from './components/Header';
 import BottomDock from './components/BottomDock';
-import AudioPlayer from './components/AudioPlayer';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -21,7 +20,7 @@ function ProtectedRoute({ children }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)]">
-        <div className="text-[var(--accent)] text-xl animate-pulse">Ładowanie...</div>
+        <div className="text-[var(--accent)] text-xl animate-pulse">Ĺadowanie...</div>
       </div>
     );
   }
@@ -40,7 +39,6 @@ function Layout({ children }) {
       <main className="flex-1 pt-16 pb-24 overflow-y-auto">
         {children}
       </main>
-      <AudioPlayer />
       <BottomDock />
     </div>
   );
@@ -85,3 +83,4 @@ function App() {
 }
 
 export default App;
+

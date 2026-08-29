@@ -1,10 +1,11 @@
-import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import useApi from '../hooks/useApi';
-import { Bell, ShieldAlert, X, Heart, LogOut } from 'lucide-react';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+import { playPlum } from '../utils/sounds';
+import { Bell, ShieldAlert, X, Heart, LogOut, Volume2, VolumeX, Settings } from 'lucide-react';
 import ThemeSwitcher from '../components/ThemeSwitcher';
 import { subscribeToPush, unsubscribeFromPush } from '../utils/pushManager';
 
@@ -13,9 +14,10 @@ export default function SettingsPage() {
   const { themeName, setTheme } = useTheme();
   const api = useApi();
   const [pushEnabled, setPushEnabled] = useState(false);
+  const [soundsEnabled, setSoundsEnabled] = useState(localStorage.getItem('pnz-sounds') !== 'off');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [deletePin, setDeletePin] = useState('');
   const [deleteError, setDeleteError] = useState('');
 
@@ -25,6 +27,8 @@ export default function SettingsPage() {
     { id: 'matrix-green', name: 'Matrix Zielony', emoji: '🟢', accent: '#22c55e' },
     { id: 'synth-pink', name: 'Synthwave Róż', emoji: '💖', accent: '#ec4899' }
   ];
+
+  const handleToggleSounds = () => { const newState = !soundsEnabled; setSoundsEnabled(newState); if (newState) { localStorage.removeItem('pnz-sounds'); playPlum(); } else { localStorage.setItem('pnz-sounds', 'off'); } };
 
   const handlePushToggle = async () => {
     if (!pushEnabled) {
@@ -64,7 +68,7 @@ export default function SettingsPage() {
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8 min-h-screen">
-      <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-8">Ustawienia</h1>
+      <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-8 flex items-center gap-3"><motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}><Settings className="w-8 h-8 text-[var(--accent)]" /></motion.div>Ustawienia</h1>
 
       {/* Profile Info */}
       <section className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -93,6 +97,22 @@ export default function SettingsPage() {
       <section className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6">
         <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4">Motyw kolorystyczny</h2>
         <ThemeSwitcher />
+      </section>
+
+      {/* Sounds */}
+      <section className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6">
+        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+          {soundsEnabled ? <Volume2 className="w-6 h-6 text-[var(--accent)]" /> : <VolumeX className="w-6 h-6 text-[var(--text-muted)]" />} Dźwięki aplikacji
+        </h2>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <p className="text-[var(--text-primary)] font-medium">Efekty dźwiękowe</p>
+            <p className="text-[var(--text-muted)] text-sm">Odtwarzaj dźwięki przy akcjach (zaznaczanie, zmiana motywu)</p>
+          </div>
+          <button onClick={handleToggleSounds} className={`px-6 py-2 rounded-xl font-bold transition-all ${soundsEnabled ? 'bg-[var(--accent)] text-white shadow-[var(--neon-shadow)]' : 'bg-[var(--bg-card)] border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}>
+            {soundsEnabled ? 'Włączone' : 'Wyłączone'}
+          </button>
+        </div>
       </section>
 
       {/* Push Notifications */}
@@ -181,15 +201,7 @@ export default function SettingsPage() {
           </div>
         )}
       </AnimatePresence>
-          <ConfirmDeleteModal 
-        isOpen={isDeletingAccount} 
-        onClose={() => setIsDeletingAccount(false)} 
-        onConfirm={handleDeleteAccount} 
-        title="Usuń konto" 
-        message="Czy na pewno chcesz usunąć swoje konto? Wszystkie zadania, notatki i wydarzenia zostaną trwale usunięte." 
-      />
+          <ConfirmDeleteModal isOpen={isDeletingAccount} onClose={() => setIsDeletingAccount(false)} onConfirm={handleDeleteAccount} title="Usuń konto" message="Czy na pewno chcesz usunąć swoje konto? Wszystkie zadania, notatki i wydarzenia zostaną trwale usunięte." />
     </div>
   );
 }
-
-
