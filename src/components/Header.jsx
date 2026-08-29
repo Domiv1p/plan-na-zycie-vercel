@@ -35,6 +35,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 w-full h-16 z-40 bg-[var(--glass-bg)] backdrop-blur-xl border-b border-[var(--glass-border)]">
       <div className="h-full flex items-center justify-between px-6">
+        
         <h1 className="text-xl font-bold text-[var(--accent)] drop-shadow-[0_0_8px_var(--accent-glow)]">
           Plan na życie
         </h1>
@@ -72,10 +73,10 @@ export default function Header() {
             <AnimatePresence>
               {isDropdownOpen && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.5, y: -20, filter: 'blur(10px)' }}
-                  animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, scale: 0.5, y: -20, filter: 'blur(10px)' }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  initial={{ opacity: 0, scale: 0.2, y: -40, x: 120, borderRadius: 100 }}
+                  animate={{ opacity: 1, scale: 1, y: 0, x: 0, borderRadius: 24 }}
+                  exit={{ opacity: 0, scale: 0.2, y: -40, x: 120, borderRadius: 100 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 300, mass: 0.8 }}
                   style={{ transformOrigin: 'top right' }}
                   className="absolute right-0 top-full mt-2 w-[90vw] max-w-sm sm:w-80 max-h-[80vh] overflow-hidden bg-[var(--bg-primary)] border border-[var(--border-bright)] rounded-[2rem] shadow-2xl z-50 flex flex-col"
                 >

@@ -98,7 +98,7 @@ export default function TasksPage() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto flex flex-col h-[calc(100vh-80px)]">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-[var(--text-primary)]">Zadania</h1>
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] flex items-center gap-3"><motion.div animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}><CheckSquare className="w-8 h-8 text-[var(--accent)]" /></motion.div>Zadania</h1>
         
         <div className="flex gap-4 items-center w-full sm:w-auto">
           <select 

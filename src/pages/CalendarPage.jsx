@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isToday, isSameMonth, isSameDay, addMonths, subMonths, startOfWeek, endOfWeek } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import useApi from '../hooks/useApi';
-import { ChevronLeft, ChevronRight, Plus, X, Clock, Edit2, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, X, Clock, Edit2, Trash2, Calendar } from 'lucide-react';
 import { playPop, playPlum } from '../utils/sounds';
 
 export default function CalendarPage() {
@@ -85,7 +85,7 @@ export default function CalendarPage() {
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto flex flex-col h-full">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-[var(--text-primary)]">Kalendarz</h1>
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] flex items-center gap-3"><motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}><Calendar className="w-8 h-8 text-[var(--accent)]" /></motion.div>Kalendarz</h1>
         <button 
           onClick={handleAddClick}
           className="bg-[var(--accent)] hover:bg-[var(--accent-bright)] text-white font-bold py-2 px-4 rounded-xl shadow-[var(--neon-shadow)] flex items-center gap-2 transition-transform hover:scale-105"

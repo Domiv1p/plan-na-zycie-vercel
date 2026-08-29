@@ -83,7 +83,7 @@ export default function NotesPage() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
-        <h1 className="text-3xl font-bold text-[var(--text-primary)]">Notatki</h1>
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] flex items-center gap-3"><motion.div animate={{ rotate: [0, 5, 0, -5, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}><PenLine className="w-8 h-8 text-[var(--accent)]" /></motion.div>Notatki</h1>
         
         <div className="flex flex-wrap gap-2 w-full md:w-auto">
           {['Wszystkie', 'Dla Miki', 'Dla Adi', 'Dla obojga'].map(f => (
