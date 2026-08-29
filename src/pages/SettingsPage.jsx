@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -14,6 +14,16 @@ export default function SettingsPage() {
   const { themeName, setTheme } = useTheme();
   const api = useApi();
   const [pushEnabled, setPushEnabled] = useState(false);
+  
+  useEffect(() => {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.pushManager.getSubscription().then(subscription => {
+          setPushEnabled(!!subscription);
+        });
+      });
+    }
+  }, []);
   const [soundsEnabled, setSoundsEnabled] = useState(localStorage.getItem('pnz-sounds') !== 'off');
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   
