@@ -8,7 +8,7 @@ import { CheckSquare, FileText, Calendar as CalendarIcon, Clock, Plus, X } from 
 import { playPlum, playPop, playPaper } from '../utils/sounds';
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, profiles } = useAuth();
   const api = useApi();
   const [time, setTime] = useState(new Date());
   const [activities, setActivities] = useState([]);
