@@ -54,7 +54,7 @@ export default function Header() {
               }}
               className={`absolute right-0 top-0 overflow-hidden border z-50 flex flex-col origin-top-right ${
                 isDropdownOpen 
-                  ? 'w-[calc(100vw-32px)] sm:w-80 max-h-[80vh] bg-[var(--bg-primary)] shadow-2xl border-[var(--border-bright)]' 
+                  ? 'w-[300px] sm:w-80 max-h-[80vh] bg-[var(--bg-primary)] shadow-2xl border-[var(--border-bright)]' 
                   : 'w-10 h-10 bg-transparent hover:bg-[var(--bg-card)] border-transparent cursor-pointer'
               }`}
             >
