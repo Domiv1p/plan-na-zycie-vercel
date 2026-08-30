@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pnz-cache-v4';
+const CACHE_NAME = 'pnz-cache-v5';
 const urlsToCache = [
   '/',
   '/index.html'

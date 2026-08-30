@@ -1,47 +1,12 @@
-﻿import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, BellOff } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { useNotifications } from '../contexts/NotificationContext';
-import { useClickOutside } from '../hooks/useClickOutside';
+﻿const fs = require('fs');
+let c = fs.readFileSync('src/components/Header.jsx', 'utf8');
 
-function timeAgo(dateStr) {
-  if (!dateStr) return '';
-  const now = new Date();
-  const date = new Date(dateStr);
-  const seconds = Math.floor((now - date) / 1000);
-  if (seconds < 60) return 'Przed chwilą';
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} min temu`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} godz. temu`;
-  const days = Math.floor(hours / 24);
-  if (days < 7) return `${days} dn. temu`;
-  return date.toLocaleDateString('pl-PL');
-}
+// Replace the entire block starting from <div className="relative" ref={dropdownRef}>
+// Up to the end of the AnimatePresence that wraps it.
 
-export default function Header() {
-  const { user } = useAuth();
-  const { notifications, unreadCount, markAllAsRead, markAsRead } = useNotifications();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+const regex = /<div className="relative" ref=\{dropdownRef\}>[\s\S]*?(?=<div className="flex items-center gap-2)/;
 
-  useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
-
-  const getEmoji = (name) => {
-    return name?.toLowerCase().includes('miki') ? '👩' : '👨';
-  };
-
-  return (
-    <header className="fixed top-0 left-0 w-full h-16 z-40 bg-[var(--glass-bg)] backdrop-blur-xl border-b border-[var(--glass-border)]">
-      <div className="h-full flex items-center justify-between px-6">
-        
-        <h1 className="text-xl font-bold text-[var(--accent)] drop-shadow-[0_0_8px_var(--accent-glow)]">
-          Plan na życie
-        </h1>
-
-        <div className="flex items-center gap-6">
-          <div className="relative" ref={dropdownRef}>
+const newBlock = `<div className="relative" ref={dropdownRef}>
             {/* Placeholder to keep header layout stable */}
             <div className="w-10 h-10" />
 
@@ -52,11 +17,11 @@ export default function Header() {
               style={{
                 borderRadius: isDropdownOpen ? 32 : 9999,
               }}
-              className={`absolute right-0 top-0 overflow-hidden border z-50 flex flex-col origin-top-right ${
+              className={\`absolute right-0 top-0 overflow-hidden border z-50 flex flex-col origin-top-right \${
                 isDropdownOpen 
                   ? 'w-[calc(100vw-32px)] sm:w-80 max-h-[80vh] bg-[var(--bg-primary)] shadow-2xl border-[var(--border-bright)]' 
                   : 'w-10 h-10 bg-transparent hover:bg-[var(--bg-card)] border-transparent cursor-pointer'
-              }`}
+              }\`}
             >
               {!isDropdownOpen ? (
                 <button 
@@ -103,12 +68,12 @@ export default function Header() {
                           <div
                             key={notif.id}
                             onClick={() => !notif.is_read && markAsRead(notif.id)}
-                            className={`p-4 rounded-2xl transition-all cursor-pointer ${
+                            className={\`p-4 rounded-2xl transition-all cursor-pointer \${
                               !notif.is_read ? 'bg-[var(--glass-bg)] border border-[var(--accent)] shadow-[0_0_15px_rgba(168,85,247,0.15)]' : 'bg-transparent border border-transparent hover:bg-[var(--glass-bg)]'
-                            }`}
+                            }\`}
                           >
                             <div className="flex justify-between items-start mb-1">
-                              <h4 className={`text-sm ${!notif.is_read ? 'font-bold text-[var(--text-primary)]' : 'font-medium text-[var(--text-secondary)]'}`}>{notif.title}</h4>
+                              <h4 className={\`text-sm \${!notif.is_read ? 'font-bold text-[var(--text-primary)]' : 'font-medium text-[var(--text-secondary)]'}\`}>{notif.title}</h4>
                               <span className="text-[10px] font-medium text-[var(--text-muted)] whitespace-nowrap ml-2 bg-[var(--bg-primary)] px-2 py-0.5 rounded-full">
                                 {timeAgo(notif.created_at)}
                               </span>
@@ -130,16 +95,9 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+`;
 
-            <span className="text-sm font-medium hidden sm:block text-[var(--text-primary)]">
-              {user?.name || 'Gość'}
-            </span>
-            <div className="w-8 h-8 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] flex items-center justify-center text-lg shadow-[0_0_8px_var(--glass-border)]">
-              {getEmoji(user?.name)}
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
+// Wait, the regex replace could be tricky with the end div. Let's make sure it matches properly.
+c = c.replace(/<div className="relative" ref=\{dropdownRef\}>[\s\S]*?<div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">/, newBlock);
+
+fs.writeFileSync('src/components/Header.jsx', c, 'utf8');
