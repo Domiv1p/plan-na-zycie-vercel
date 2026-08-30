@@ -43,10 +43,24 @@ const navItems = [
 
 export default function BottomDock() {
   const location = useLocation();
+  const activeIndex = navItems.findIndex(item => location.pathname.startsWith(item.path));
+  const safeActiveIndex = activeIndex >= 0 ? activeIndex : 0;
 
   return (
     <div className="fixed bottom-0 left-0 w-full z-50 bg-[var(--glass-bg)] backdrop-blur-2xl border-t border-[var(--glass-border)] pb-safe sm:pb-2">
-      <nav className="flex justify-around items-center h-16 px-2">
+      <nav className="flex justify-around items-center h-16 px-2 relative">
+        <div className="absolute inset-y-0 left-2 right-2 pointer-events-none flex z-0">
+          <motion.div
+            className="h-full flex items-center justify-center"
+            initial={false}
+            animate={{ x: `${safeActiveIndex * 100}%` }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            style={{ width: `${100 / navItems.length}%` }}
+          >
+            {/* The beautiful glow with blur is back, but as a single element to prevent overlap flashes! */}
+            <div className="w-10 h-10 rounded-full bg-[var(--accent)] opacity-30 blur-[8px] absolute top-2" />
+          </motion.div>
+        </div>
         {navItems.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
           const Icon = item.icon;
@@ -60,13 +74,7 @@ export default function BottomDock() {
               }`}
             >
               <div className="relative flex items-center justify-center w-10 h-10">
-                {isActive && (
-                  <motion.div
-                    layoutId="dock-glow"
-                    className="absolute inset-0 rounded-full bg-[var(--accent)] opacity-10"
-                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                  />
-                )}
+                
                 <motion.div animate={isActive ? item.activeAnimation : {}}>
                   <Icon size={24} />
                 </motion.div>
